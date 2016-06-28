@@ -3,6 +3,6 @@
   roles:
     - os_horizon_expert-happiness
   vars:
-    expert_happiness_content_server: https://166.78.155.48
+    expert_happiness_dest_dir: /opt/geix/expert-happiness
   vars_files:
     - "./group_vars/all.yml"

@@ -4,4 +4,4 @@ expert_happiness_pip_packages: []
 openstack_release: 13.1.4
 horizon_venv_bin: "/openstack/venvs/horizon-{{ openstack_release }}/bin"
 horizon_venv_lib_dir: "{{ horizon_venv_bin | dirname }}/lib/python2.7/dist-packages"
-expert_happiness_content_server:
+horizon_system_user_name: horizon
