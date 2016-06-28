@@ -1,0 +1,9 @@
+expert_happiness_git_repo: https://github.com/michaelrice/expert-happiness
+expert_happiness_git_install_branch: master
+expert_happiness_dest_dir: /opt/rackspace/expert-happiness
+expert_happiness_pip_packages: []
+# liberty 12.0.14, Mitaka 13.1.4
+openstack_release: 13.1.4
+horizon_venv_bin: "/openstack/venvs/horizon-{{ openstack_release }}/bin"
+horizon_venv_lib_dir: "{{ horizon_venv_bin | dirname }}/lib/python2.7/dist-packages"
+expert_happiness_content_server:

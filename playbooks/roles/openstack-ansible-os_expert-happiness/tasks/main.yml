@@ -1,0 +1,43 @@
+---
+
+- name: Pull latest expert-happiness from github
+  git:
+    repo: "{{ expert_happiness_git_repo }}"
+    dest: "{{ expert_happiness_dest_dir }}"
+    version: "{{ expert_happiness_git_install_branch }}"
+
+- name: Make the expert-happiness dir on horizon box
+  file:
+    path: "{{ horizon_venv_lib_dir }}/openstack_dashboard/static/dashboard/js"
+    state: "directory"
+
+- name: Place expert-happiness in static dir
+  copy:
+    src: "{{ expert_happiness_dest_dir }}/js/double-cheeseburger.js"
+    dest: "{{ horizon_venv_lib_dir }}/openstack_dashboard/static/dashboard/js/double-cheeseburger.js"
+
+- name: Update expert-happiness with content host
+  lineinfile:
+    dest: "{{ horizon_venv_lib_dir }}/openstack_dashboard/static/dashboard/js/double-cheeseburger.js"
+    regexp: "var info_site = \"CHANGEME\";"
+    line: "var info_site = \"{{ expert_happiness_content_server }}\";"
+
+# The line value should be relevant to what ever is set in the local_settings.py COMPRESS_ROOT
+- name: Add new js path to local_settings
+  lineinfile:
+    dest: "/etc/horizon/local_settings.py"
+    line: "HORIZON_CONFIG[\"js_files\"] = [\"dashboard/js/double-cheeseburger.js\"]"
+
+# This should almost always be the last task run.
+- name: Collect and compress static files
+  command: "{{ item }}"
+  become: yes
+  become_user: "{{ horizon_system_user_name }}"
+  with_items:
+    - "{{ horizon_venv_bin }}/horizon-manage.py collectstatic --noinput"
+    - "{{ horizon_venv_bin }}/horizon-manage.py compress --force"
+  notify: Restart apache2
+  tags:
+    - horizon-configs
+    - horizon-static-collect
+    - horizon-command-bin
