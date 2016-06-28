@@ -1,11 +1,5 @@
 ---
 
-- name: Pull latest expert-happiness from github
-  git:
-    repo: "{{ expert_happiness_git_repo }}"
-    dest: "{{ expert_happiness_dest_dir }}"
-    version: "{{ expert_happiness_git_install_branch }}"
-
 - name: Make the expert-happiness dir on horizon box
   file:
     path: "{{ horizon_venv_lib_dir }}/openstack_dashboard/static/dashboard/js"
@@ -15,12 +9,6 @@
   copy:
     src: "{{ expert_happiness_dest_dir }}/js/double-cheeseburger.js"
     dest: "{{ horizon_venv_lib_dir }}/openstack_dashboard/static/dashboard/js/double-cheeseburger.js"
-
-- name: Update expert-happiness with content host
-  lineinfile:
-    dest: "{{ horizon_venv_lib_dir }}/openstack_dashboard/static/dashboard/js/double-cheeseburger.js"
-    regexp: "var info_site = \"CHANGEME\";"
-    line: "var info_site = \"{{ expert_happiness_content_server }}\";"
 
 # The line value should be relevant to what ever is set in the local_settings.py COMPRESS_ROOT
 - name: Add new js path to local_settings

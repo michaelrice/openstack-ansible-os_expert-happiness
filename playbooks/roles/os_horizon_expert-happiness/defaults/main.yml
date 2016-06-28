@@ -1,5 +1,3 @@
-expert_happiness_git_repo: https://github.com/michaelrice/expert-happiness
-expert_happiness_git_install_branch: master
 expert_happiness_dest_dir: /opt/rackspace/expert-happiness
 expert_happiness_pip_packages: []
 # liberty 12.0.14, Mitaka 13.1.4
